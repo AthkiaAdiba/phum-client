@@ -33,6 +33,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   // console.log(result);
 
   if (result.error?.status === 404) {
+    // @ts-ignore
     toast.error(result?.error?.data?.message);
   }
 
