@@ -9,6 +9,16 @@ import PHSelect from "../../../components/form/PHSelect";
 import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userMangement.api";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
+type TFacultyInfo = {
+  key: string;
+  title: string;
+  code: string;
+};
+
+type AddFacultyModalProps = {
+  facultyInfo: TFacultyInfo;
+};
+
 const Courses = () => {
   // const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
 
@@ -34,7 +44,7 @@ const Courses = () => {
     {
       title: "Action",
       key: "x",
-      render: (item) => {
+      render: (item: TFacultyInfo) => {
         return <AddFacultyModal facultyInfo={item} />;
       },
     },
@@ -62,8 +72,8 @@ const Courses = () => {
   );
 };
 
-const AddFacultyModal = ({ facultyInfo }) => {
-  // console.log(data.key);
+const AddFacultyModal = ({ facultyInfo }: AddFacultyModalProps) => {
+  // console.log(facultyInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: facultiesData } = useGetAllFacultiesQuery(undefined);
   const [assignFaculties] = useAddFacultiesMutation();

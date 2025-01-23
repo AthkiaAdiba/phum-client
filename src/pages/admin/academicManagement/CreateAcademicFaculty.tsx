@@ -15,10 +15,19 @@ const CreateAcademicFaculty = () => {
 
     try {
       const res = await createAcademicFaculty(data);
-      if (res.error) {
-        toast.error(res?.error?.data?.message, { id: toastId });
+      if ("error" in res && res.error) {
+        const errorMessage =
+          (res.error as any)?.data?.message || "An error occurred";
+        toast.error(errorMessage, { id: toastId });
+        // toast.error(res?.error?.data?.message, { id: toastId });
       } else {
-        toast.success(res?.data?.message, { id: toastId });
+        toast.success(
+          (res as any)?.data?.message || "Academic Faculty added successfully!",
+          {
+            id: toastId,
+          }
+        );
+        // toast.success(res?.data?.message, { id: toastId });
       }
     } catch (err) {
       toast.error("Something went wrong!", { id: toastId });

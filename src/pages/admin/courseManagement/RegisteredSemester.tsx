@@ -6,6 +6,7 @@ import {
 import moment from "moment";
 import { TSemester } from "../../../types";
 import { useState } from "react";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const items = [
   {
@@ -46,7 +47,7 @@ const RegisteredSemester = () => {
     })
   );
 
-  const handleStatusUpdate = (data) => {
+  const handleStatusUpdate: SubmitHandler<FieldValues> = (data) => {
     // console.log("semesterId", semesterId);
     // console.log("status", data.key);
     const updateData = {

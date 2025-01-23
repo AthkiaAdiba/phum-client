@@ -1,14 +1,10 @@
-import {
-  TFaculty,
-  TQueryParam,
-  TResponseRedux,
-  TStudent,
-} from "../../../types";
+import { TQueryParam, TResponseRedux } from "../../../types";
+import { TOfferedCourse } from "../../../types/studentCourse.type";
 import { baseApi } from "../../api/baseApi";
 
-const userManagementApi = baseApi.injectEndpoints({
+const studentCourseApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllStudents: builder.query({
+    getMyOfferedCourses: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
 
@@ -19,12 +15,13 @@ const userManagementApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: "/students",
+          url: "/offered-courses/my-offered-courses",
           method: "GET",
           params: params,
         };
       },
-      transformResponse: (response: TResponseRedux<TStudent[]>) => {
+      providesTags: ["offeredCourse"],
+      transformResponse: (response: TResponseRedux<TOfferedCourse[]>) => {
         // console.log("Inside redux", response);
         return {
           data: response.data,
@@ -32,7 +29,7 @@ const userManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
-    getAllFaculties: builder.query({
+    getMyEnrolledCourses: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
 
@@ -43,12 +40,13 @@ const userManagementApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: "/faculties",
+          url: "/enrolled-courses/my-enrolled-courses",
           method: "GET",
           params: params,
         };
       },
-      transformResponse: (response: TResponseRedux<TFaculty[]>) => {
+      providesTags: ["offeredCourse"],
+      transformResponse: (response: TResponseRedux<any>) => {
         // console.log("Inside redux", response);
         return {
           data: response.data,
@@ -56,33 +54,19 @@ const userManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
-    createAcademicSemester: builder.mutation({
+    enrollCourse: builder.mutation({
       query: (data) => ({
-        url: "/academic-semesters/create-academic-semester",
+        url: "/enrolled-courses/create-enrolled-course",
         method: "POST",
         body: data,
       }),
-    }),
-    addStudent: builder.mutation({
-      query: (data) => ({
-        url: "/users/create-student",
-        method: "POST",
-        body: data,
-      }),
-    }),
-    changePassword: builder.mutation({
-      query: (data) => ({
-        url: "/auth/change-password",
-        method: "POST",
-        body: data,
-      }),
+      invalidatesTags: ["offeredCourse"],
     }),
   }),
 });
 
 export const {
-  useAddStudentMutation,
-  useGetAllStudentsQuery,
-  useGetAllFacultiesQuery,
-  useChangePasswordMutation,
-} = userManagementApi;
+  useGetMyOfferedCoursesQuery,
+  useEnrollCourseMutation,
+  useGetMyEnrolledCoursesQuery,
+} = studentCourseApi;

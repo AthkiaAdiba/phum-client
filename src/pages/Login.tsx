@@ -1,5 +1,5 @@
 import { Button, Row } from "antd";
-import { FieldValues, useForm, useFormContext } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
@@ -16,8 +16,8 @@ const Login = () => {
   const [login] = useLoginMutation();
 
   const defaultValues = {
-    id: "A-0001",
-    password: "admin1",
+    id: "2025010001",
+    password: "student2",
   };
 
   const onSubmit = async (data: FieldValues) => {
@@ -35,7 +35,13 @@ const Login = () => {
 
       disPatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Logged in successfully!", { id: toastId, duration: 2000 });
-      navigate(`/${user.role}/dashboard`);
+
+      if (res?.data?.needsPasswordChange) {
+        navigate(`/change-password`);
+      } else {
+        navigate(`/${user.role}/dashboard`);
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Something went wrong!", { id: toastId, duration: 2000 });

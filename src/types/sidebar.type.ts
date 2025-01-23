@@ -5,16 +5,18 @@ export type TRoute = {
   element: ReactNode;
 };
 
-export type TSidebarItem =
-  | {
-      key: string;
-      label: ReactNode;
-      children?: TSidebarItem[];
-    }
-  | undefined;
+export type TSidebarItem = {
+  key: string;
+  label: ReactNode;
+  children?: {
+    name: string;
+    path: string;
+    element: ReactNode;
+  }[];
+};
 
 export type TUserPath = {
-  name: string;
+  name?: string;
   path?: string;
   element?: ReactNode;
   children?: TUserPath[];

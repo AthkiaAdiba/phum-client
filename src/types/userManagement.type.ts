@@ -83,6 +83,7 @@ export type TFaculty = {
   academicDepartment: TAcademicDepartment;
   academicFaculty: TAcademicFaculty;
   isDeleted: boolean;
+  fullName: string;
 };
 
 export type TFacultyName = {
